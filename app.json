@@ -44,6 +44,12 @@
         "projectId": "12dbdda4-59ba-4763-b7c4-cd1fbfb0b1dc"
       }
     },
-    "owner": "garder500"
+    "owner": "garder500",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/12dbdda4-59ba-4763-b7c4-cd1fbfb0b1dc"
+    }
   }
 }
