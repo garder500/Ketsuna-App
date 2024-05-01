@@ -35,6 +35,7 @@ const CombinedDarkTheme = {
   colors: {
     ...MD3DarkTheme.colors,
     ...DarkTheme.colors,
+    primaryContainer: "rgb(44,40,49)",
   },
 };
 

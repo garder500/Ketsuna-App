@@ -3,7 +3,7 @@
     "name": "Ketsuna",
     "slug": "Ketsuna",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/images/icon.png",
     "scheme": "ketsuna",
     "userInterfaceStyle": "automatic",
@@ -23,6 +23,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "googleServicesFile": "./assets/google-services.json",
       "package": "com.ketsuna.com"
     },
     "web": {

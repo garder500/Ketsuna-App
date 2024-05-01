@@ -1,20 +1,18 @@
 import React from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { Link, Tabs } from 'expo-router';
-import { Pressable } from 'react-native';
-import { useColorScheme } from 'react-native';
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { Tabs, useNavigation } from 'expo-router';
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
-  name: React.ComponentProps<typeof Ionicons>['name'];
+  name: React.ComponentProps<typeof MaterialCommunityIcons>['name'];
   color: string;
+  size: number;
 }) {
-  return <Ionicons size={30} style={{ marginBottom: -3 }} {...props} />;
+  return <MaterialCommunityIcons style={{ marginBottom: -3 }} {...props} />;
 }
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const navigation = useNavigation();
 
   return (
     <Tabs
@@ -27,14 +25,21 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color, focused }) =><TabBarIcon name={focused ? "home" : "home-outline"} color={color} />,
+          tabBarIcon: ({ color, focused }) =><TabBarIcon size={30} name={focused ? "home" : "home-outline"} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="create"
+        options={{
+          title: 'Create',
+          tabBarIcon: ({ color, focused }) => <TabBarIcon name={focused ? "plus-circle" : "plus-circle-outline"} color={color} size={40}/>,
         }}
       />
       <Tabs.Screen
         name="account"
         options={{
           title: 'Account',
-          tabBarIcon: ({ color, focused }) => <TabBarIcon name={focused ? "person": "person-outline"} color={color} />,
+          tabBarIcon: ({ color, focused }) => <TabBarIcon size={30} name={focused ? "account-circle" : "account-circle-outline"} color={color} />,
         }}
       />
     </Tabs>
