@@ -24,7 +24,6 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.ketsuna.com",
-      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",
