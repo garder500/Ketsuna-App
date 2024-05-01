@@ -62,7 +62,7 @@ export default function CreateScreen() {
                 onPress={async () => {
                     await schedulePushNotification();
                 }}
-            >Press a Schedule notification</Button>
+            >Pres a Schedule notification</Button>
         </Surface>
     );
 }
@@ -94,7 +94,8 @@ async function registerForPushNotificationsAsync() {
 
     if (Device.isDevice) {
         const projectId = Constants.expoConfig?.extra ? Constants.expoConfig?.extra.eas.projectId : undefined;
-        if (!projectId) {
+        if (projectId) {
+            console.log(projectId);
             const { status: existingStatus } = await Notifications.getPermissionsAsync();
             let finalStatus = existingStatus;
             if (existingStatus !== 'granted') {
