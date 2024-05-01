@@ -5,7 +5,7 @@ import { Surface, Text } from 'react-native-paper';
 export default function TabOneScreen() {
   return (
     <Surface style={styles.container}>
-      <Text style={styles.title}>Small change to see if it will take effect</Text>
+      <Text style={styles.title}>Hey Hey</Text>
     </Surface>
   );
 }
