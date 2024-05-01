@@ -1,23 +1,25 @@
-import { StyleSheet } from 'react-native';
 
-import { Surface, Text } from 'react-native-paper';
+import { ScrollView } from 'react-native';
+import { List, Surface } from 'react-native-paper';
 
-export default function TabOneScreen() {
+export default function HomeScreen() {
   return (
-    <Surface style={styles.container}>
-      <Text style={styles.title}>Hey Hey</Text>
-    </Surface>
+
+      <Surface>
+        <ScrollView>
+        <List.Section title='List of items'>
+          {Array.from({ length: 10 }).map((_, i) => (
+            <List.Item
+              key={i}
+              title={`Item ${i + 1}`}
+              description={`Description ${i + 1}`}
+              left={(props) => <List.Icon {...props} icon="folder" />}
+            />
+          ))}
+        </List.Section>
+        </ScrollView>
+      </Surface>
+
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-});

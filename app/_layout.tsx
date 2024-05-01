@@ -9,7 +9,6 @@ import {
   adaptNavigationTheme,
 } from 'react-native-paper';
 import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
 import { PaperProvider } from 'react-native-paper';
 import { useColorScheme } from 'react-native';
 
@@ -60,7 +59,6 @@ function RootLayoutNav() {
       <ThemeProvider value={colorScheme === 'dark' ? CombinedDarkTheme : CombinedDefaultTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
         </Stack>
       </ThemeProvider>
     </PaperProvider>
