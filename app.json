@@ -23,7 +23,6 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "googleServicesFile": "./assets/google-services.json",
       "package": "com.ketsuna.com"
     },
     "web": {
