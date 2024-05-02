@@ -22,28 +22,13 @@ export default function CreateScreen() {
 
 
 async function schedulePushNotification() {
-    await Notifications.setNotificationCategoryAsync('test', [
-        {
-            identifier: 'textInput',
-            buttonTitle: 'Reply',
-            textInput: {
-                placeholder: 'Enter your response',
-                submitButtonTitle: 'Send',
-            }
-        }
-    ]);
     await Notifications.scheduleNotificationAsync({
         content: {
             title: "You've got mail! 📬",
             body: 'Here is the notification body',
             data: { data: 'test' },
-            badge: 1,
-            sticky: true,
-            subtitle: 'This is a subtitle',
-            launchImageName: 'icon.png',
-            color: '#FF231F7C',
-            categoryIdentifier: 'test',
+            categoryIdentifier: 'textInput',
         },
-        trigger: { seconds: 2 },
+        trigger:{ seconds: 1 }
     });
 }

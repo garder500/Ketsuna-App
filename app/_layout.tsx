@@ -117,8 +117,7 @@ function RootLayoutNav() {
       });
 
     const subscription = Notifications.addNotificationResponseReceivedListener(response => {
-      Notifications.dismissNotificationAsync(response.notification.request.identifier);
-      console.log(response);
+      console.log(response, "response.userText");
       // aknowledge the notification
 
       redirect(response.notification);
