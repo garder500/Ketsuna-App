@@ -14,7 +14,12 @@
     },
     "production": {
       "channel": "production",
-      "image": "latest"
+      "android": {
+        "image": "latest"
+      },
+      "ios": {
+        "image": "latest"
+      }
     }
   },
   "submit": {
