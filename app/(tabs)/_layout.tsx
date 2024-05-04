@@ -1,6 +1,8 @@
 import React from 'react';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { Tabs, useNavigation } from 'expo-router';
+import { Image } from 'react-native';
+import { Avatar } from 'react-native-paper';
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -26,6 +28,13 @@ export default function TabLayout() {
         options={{
           title: 'Home',
           tabBarIcon: ({ color, focused }) =><TabBarIcon size={30} name={focused ? "home" : "home-outline"} color={color} />,
+          headerLeft: () => (
+            <Avatar.Image
+              source={require('../../assets/images/icon.png')}
+              size={40}
+              style={{ marginLeft: 10 }}
+            />
+          ),
         }}
       />
       <Tabs.Screen
@@ -38,7 +47,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="account"
         options={{
-          title: 'Account',
+          title: 'Settings',
           tabBarIcon: ({ color, focused }) => <TabBarIcon size={30} name={focused ? "account-circle" : "account-circle-outline"} color={color} />,
         }}
       />

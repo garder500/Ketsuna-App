@@ -4,6 +4,7 @@ import {
   ThemeProvider,
 } from '@react-navigation/native';
 import {
+  IconButton,
   MD3DarkTheme,
   MD3LightTheme,
   adaptNavigationTheme,
@@ -15,6 +16,8 @@ import Constants from "expo-constants";
 import { Stack, router } from 'expo-router';
 import { PaperProvider } from 'react-native-paper';
 import { Platform, useColorScheme } from 'react-native';
+import { removeItem } from '@/utils/storage';
+import { ButtonAppHeader } from '@/components/ButtonAppHeader';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -97,7 +100,7 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   useEffect(() => {
-    registerForPushNotificationsAsync().then(token => console.log(token));
+    registerForPushNotificationsAsync();
     let isMounted = true;
 
     function redirect(notification: Notifications.Notification) {
@@ -117,7 +120,6 @@ function RootLayoutNav() {
       });
 
     const subscription = Notifications.addNotificationResponseReceivedListener(response => {
-      console.log(response, "response.userText");
       // aknowledge the notification
 
       redirect(response.notification);
@@ -135,6 +137,8 @@ function RootLayoutNav() {
       <ThemeProvider value={colorScheme === 'dark' ? CombinedDarkTheme : CombinedDefaultTheme}>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="apps/[id]/index" options={{ title: "App", headerRight: ButtonAppHeader }} />
+          <Stack.Screen name="apps/[id]/edit" options={{ title: "Edit App" }} />
         </Stack>
       </ThemeProvider>
     </PaperProvider>

@@ -1,7 +1,7 @@
 {
   "name": "ketsuna",
   "main": "expo-router/entry",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
@@ -36,7 +36,8 @@
     "expo-av": "~13.10.6",
     "expo-device": "~5.9.4",
     "expo-constants": "~15.4.6",
-    "expo-dev-client": "~3.3.11"
+    "expo-dev-client": "~3.3.11",
+    "@react-native-async-storage/async-storage": "1.21.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

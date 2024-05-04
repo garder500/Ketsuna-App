@@ -4,7 +4,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   "name": "Ketsuna",
   "slug": "Ketsuna",
-  "version": "1.0.0",
   "android": {
     "adaptiveIcon": {
       "foregroundImage": "./assets/images/adaptive-icon.png",
