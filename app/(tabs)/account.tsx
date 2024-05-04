@@ -3,8 +3,9 @@ import { clear, getItem, setItem } from '@/utils/storage';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useEffect, useState } from 'react';
 import { Alert, ScrollView, View, useWindowDimensions } from 'react-native';
+import { Avatar, Button, Surface, Switch, Text, TextInput, Title, Tooltip } from 'react-native-paper';
 
-import { Avatar, Button, Icon, List, Surface, Switch, Text, TextInput, Title, Tooltip } from 'react-native-paper';
+
 export default function TabOneScreen() {
 
   const [canEdit, setCanEdit] = useState(false);

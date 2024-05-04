@@ -1,6 +1,6 @@
 import { AppItem } from '@/components/AppItem';
 import { AppRecentlyCreated } from '@/types/app';
-import { getItem } from '@/utils/storage';
+import { getAllApps } from '@/utils/storage';
 import { router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { ScrollView } from 'react-native';
@@ -11,20 +11,18 @@ export default function CreateScreen() {
     const [recentlyOpenedApps, setRecentlyOpenedApps] = useState<AppRecentlyCreated[]>([]);
 
     useEffect(() => {
-        getItem<AppRecentlyCreated[]>("recentlyOpenedApps").then((apps) => {
-            if (apps) {
+        const suscriber = setInterval(() => {
+        getAllApps().then((apps) => {
+            if (apps.length > 0) {
                 setRecentlyOpenedApps(apps);
+            }else{
+                setRecentlyOpenedApps([])
             }
         })
-        setInterval(() => {
-            getItem<AppRecentlyCreated[]>("recentlyOpenedApps").then((apps) => {
-                if (apps) {
-                    setRecentlyOpenedApps(apps);
-                }else{
-                    setRecentlyOpenedApps([]);
-                }
-            })
-        }, 1000);
+        }, 1000)
+        return () => {
+            clearInterval(suscriber)
+        }
     }, []);
 
 
@@ -48,7 +46,7 @@ export default function CreateScreen() {
                 flexWrap: 'wrap',
                 marginTop: 10,
             }}>
-                {recentlyOpenedApps.length > 0 ? recentlyOpenedApps.reverse().map((app, index) => (
+                {recentlyOpenedApps.length > 0 ? recentlyOpenedApps.map((app) => (
                     <AppItem name={app.name} description={app.description} trigger={() => router.navigate("apps/" + app.createdAt)} key={app.updatedAt} />
                 )) : <List.Item
                     title="No apps created yet"

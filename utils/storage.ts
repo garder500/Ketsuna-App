@@ -101,40 +101,38 @@ export async function flushGetRequests() {
 }
 
 export async function removeApp(appId: string) {
-    await getItem<AppRecentlyCreated[]>("recentlyOpenedApps").then((apps) => {
-        if (apps) {
-            setItem("recentlyOpenedApps", apps.filter(app => app.createdAt !== appId));
-        }
-    })
 
     await removeItem("apps/"+appId);
+    // remove all pages of the app
+    const keys = await getAllKeys();
+    const pages = keys.filter(key => key.startsWith("apps/"+appId+"/pages/"));
+    await multiRemove(pages);
     return true;
 }
 
-export async function updateApp(appId: string, app: App) {
-    await getItem<AppRecentlyCreated[]>("recentlyOpenedApps").then((apps) => {
-        if (apps) {
-            const olds = apps.filter(app => app.createdAt !== appId);
-            setItem("recentlyOpenedApps", [...olds, {
-                name: app.name,
-                description: app.description,
-                createdAt: app.createdAt,
-                updatedAt: Date.now().toString(),
-            }]);
-        }else{
-            setItem("recentlyOpenedApps", [{
-                name: app.name,
-                description: app.description,
-                createdAt: app.createdAt,
-                updatedAt: Date.now().toString(),
-            }]);
-        }
-    })
-    return true;
+export async function getAllApps() {
+    const apps = await getAllKeys();
+    // retrieve apps/:id but not apps/:id/pages/:id
+    const appsPromised = await multiGet<App>(apps.filter(app => {
+      const splited = app.split('/');
+      if(app.startsWith('apps/') && splited.length === 2){
+        return true;
+      }
+    }));
+    return (appsPromised.map(app => app[1]).filter(app => app !== null) as App[]);
 }
 
 export async function updateAppContent(appId: string, content: App) {
     await setItem("apps/"+appId, content);
-    await updateApp(appId,content);
     return true;
+}
+
+export async function getPages(appId: string) {
+    const keys = await getAllKeys();
+    const pages = keys.filter(key => key.startsWith("apps/"+appId+"/pages/"));
+    return pages;
+}
+
+export function removePage(appId: string, pageId: string) {
+    return removeItem("apps/"+appId+"/pages/"+pageId);
 }

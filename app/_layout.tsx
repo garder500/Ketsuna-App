@@ -135,10 +135,8 @@ function RootLayoutNav() {
   return (
     <PaperProvider theme={colorScheme === 'dark' ? CombinedDarkTheme : CombinedDefaultTheme}>
       <ThemeProvider value={colorScheme === 'dark' ? CombinedDarkTheme : CombinedDefaultTheme}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="apps/[id]/index" options={{ title: "App", headerRight: ButtonAppHeader }} />
-          <Stack.Screen name="apps/[id]/edit" options={{ title: "Edit App" }} />
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="(tabs)"  />
         </Stack>
       </ThemeProvider>
     </PaperProvider>

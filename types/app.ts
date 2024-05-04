@@ -3,11 +3,10 @@ export interface App {
     description: string;
     createdAt: string;
     updatedAt: string;
-    appContent?: AppContent;
 }
 
 export interface AppContent{
-    [key: string]: AppContentItem;
+    [key: string]: AppContentItem | AppContentItemContentValue;
 }
 
 export enum AppContentItemType{
@@ -26,4 +25,4 @@ export interface AppContentItemContent{
 
 export type AppContentItemContentValue = string | number | boolean | AppContentItemContent;
 
-export type AppRecentlyCreated = Omit<App, "appContent">;
+export type AppRecentlyCreated = App; // This is a type alias
