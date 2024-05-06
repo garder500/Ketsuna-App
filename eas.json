@@ -1,6 +1,8 @@
 {
   "cli": {
-    "version": ">= 7.8.5"
+    "version": ">= 7.8.5",
+        "appVersionSource": "remote"
+
   },
   "build": {
     "development": {
@@ -13,6 +15,7 @@
       "channel": "preview"
     },
     "production": {
+      "autoIncrement": true,
       "channel": "production",
       "android": {
         "image": "latest"
