@@ -22,7 +22,7 @@ export function ButtonAppHeader(){
         />
         <IconButton
             icon="pencil"
-            onPress={() => router.navigate("apps/"+id+"/edit")}
+            onPress={() => router.navigate(`/apps/${id}/edit`)}
         />
         </Surface>
     )

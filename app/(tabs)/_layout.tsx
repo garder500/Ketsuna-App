@@ -1,7 +1,6 @@
 import React from 'react';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { Tabs, useNavigation } from 'expo-router';
-import { Image } from 'react-native';
+import { Tabs } from 'expo-router';
 import { Avatar } from 'react-native-paper';
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
@@ -14,7 +13,6 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
-  const navigation = useNavigation();
 
   return (
     <Tabs

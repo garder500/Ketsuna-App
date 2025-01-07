@@ -31,9 +31,10 @@
       [
         "expo-dev-launcher",
         {
-          "launchModeExperimental": "launcher"
+          "launchMode": "launcher"
         }
-      ]
+      ],
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true

@@ -10,14 +10,10 @@ export default function AppCreateScreen() {
     }>()
     const [App, setApp] = useState<App>()
     const [pages, setPages] = useState<string[]>([])
-    const navigation = useNavigation();
     useEffect(() => {
         getItem<App>("apps/" + id).then((app) => {
             if (app) {
                 setApp(app)
-                navigation.setOptions({
-                    title: app.name
-                })
             } else {
                 getItem<string>("defaultAppName").then((appName) => {
                     const appToUpdate: App = {
@@ -36,9 +32,6 @@ export default function AppCreateScreen() {
             getItem<App>("apps/" + id).then((app) => {
                 if (app) {
                     setApp(app)
-                    navigation.setOptions({
-                        title: app.name
-                    })
                 }
             })
             getPages(id).then((pages) => {
@@ -60,7 +53,7 @@ export default function AppCreateScreen() {
             <Title style={{ textAlign: 'center' }}>Pages</Title>
                 <Button icon={"plus"} mode={"contained"}
                 onPress={() => {
-                    router.navigate("apps/" + id + "/" + Date.now().toString())
+                    router.navigate(`/apps/${id}/${Date.now().toString()}`)
                 }}
                     style={{
                         marginTop: 10
@@ -73,9 +66,9 @@ export default function AppCreateScreen() {
             }}>
                 {pages.map((page, index) => {
                     return (
-                        <Button key={index} onPress={() => {
-                            router.navigate("apps/" + id + "/" + page.split("/").pop())
-                        }} style={{ margin: 5 }}>Page {index + 1}</Button>
+                        <Link href={`/apps/${id}/${page.split("/").pop()}`} key={index}>
+                            <Button key={index} style={{ margin: 5 }}>Page {index + 1}</Button>
+                        </Link>
                         )
                 } )}
             </ScrollView>

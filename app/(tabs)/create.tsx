@@ -1,7 +1,7 @@
 import { AppItem } from '@/components/AppItem';
 import { AppRecentlyCreated } from '@/types/app';
 import { getAllApps } from '@/utils/storage';
-import { router } from 'expo-router';
+import { Link, router } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { ScrollView } from 'react-native';
 import { Button, Divider, List, Surface, Title } from 'react-native-paper';
@@ -32,10 +32,15 @@ export default function CreateScreen() {
             alignItems: 'center',
             justifyContent: 'center',
         }}>
-            <Button icon={"plus"} mode={"contained"} onPress={() => router.navigate("apps/" + Date.now().toString())}
-                style={{
-                    marginTop: 40
-                }}>Create new app</Button>
+            <Link href={`/apps/${Date.now().toString()}`} style={{
+
+                marginTop: 40
+            }}>
+                <List.Item
+                    title="Create new app"
+                    left={(props) => <List.Icon {...props} icon="plus" />}
+                />
+            </Link>
 
             <Divider style={{ marginVertical: 20 }} />
 
@@ -47,7 +52,14 @@ export default function CreateScreen() {
                 marginTop: 10,
             }}>
                 {recentlyOpenedApps.length > 0 ? recentlyOpenedApps.map((app) => (
-                    <AppItem name={app.name} description={app.description} trigger={() => router.navigate("apps/" + app.createdAt)} key={app.updatedAt} />
+                    <Link href={`/apps/${app.createdAt}`} key={app.updatedAt}>
+                        <List.Item
+                            title={app.name}
+                            description={app.description}
+                            left={(props) => <List.Icon {...props} icon="application" />}
+                        right={(props) => <List.Icon {...props} icon="chevron-right" />}
+                />
+        </Link>
                 )) : <List.Item
                     title="No apps created yet"
                     left={(props) => <List.Icon {...props} icon="information" />}

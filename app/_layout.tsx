@@ -4,7 +4,6 @@ import {
   ThemeProvider,
 } from '@react-navigation/native';
 import {
-  IconButton,
   MD3DarkTheme,
   MD3LightTheme,
   adaptNavigationTheme,
@@ -16,8 +15,6 @@ import Constants from "expo-constants";
 import { Stack, router } from 'expo-router';
 import { PaperProvider } from 'react-native-paper';
 import { Platform, useColorScheme } from 'react-native';
-import { removeItem } from '@/utils/storage';
-import { ButtonAppHeader } from '@/components/ButtonAppHeader';
 
 export {
   // Catch any errors thrown by the Layout component.

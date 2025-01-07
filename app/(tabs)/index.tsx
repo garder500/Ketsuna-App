@@ -4,7 +4,7 @@ import { AppRecentlyCreated } from '@/types/app';
 import { getAllApps, getItem } from '@/utils/storage';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { Divider, List, Surface, Title } from 'react-native-paper';
 
 
@@ -27,7 +27,7 @@ export default function HomeScreen() {
     }
 }, []);
   return (
-    <>
+    <View>
       <Surface style={{
         flex: 1,
         alignItems: 'center',
@@ -42,14 +42,14 @@ export default function HomeScreen() {
           <Title style={{ textAlign: 'center' }}>Apps Created by You</Title>
           <Divider style={{ margin: 10 }} />
           {data.length > 0 ? data.map((app, index) => (
-            <AppItem name={app.name} description={app.description} trigger={() => router.navigate("/apps/" + app.createdAt)} key={index} />
+            <AppItem name={app.name} description={app.description} trigger={() => router.navigate(`/apps/${app.createdAt}`)} key={index} />
           )) : <List.Item
             title="No apps created yet"
             left={(props) => <List.Icon {...props} icon="information" />}
           />}
         </ScrollView>
       </Surface>
-    </>
+    </View>
 
 
   );
