@@ -51,6 +51,9 @@ export default function AppCreateScreen() {
             <Divider style={{ marginVertical: 20, backgroundColor: "white"}} />
 
             <Title style={{ textAlign: 'center' }}>Pages</Title>
+            <Link href={`/(tabs)/`} style={{ marginTop: 20 }}>
+                <Button icon={"arrow-left"} mode={"contained"}>Go Back</Button>
+            </Link>
                 <Button icon={"plus"} mode={"contained"}
                 onPress={() => {
                     router.navigate(`/apps/${id}/${Date.now().toString()}`)
