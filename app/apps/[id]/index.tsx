@@ -1,6 +1,6 @@
 import { Button, Divider, Surface, Text, Title } from "react-native-paper"
-import { useNavigation, useLocalSearchParams, Link, router } from "expo-router"
-import { App, AppContent } from "@/types/app"
+import { useLocalSearchParams, Link, router } from "expo-router"
+import { App } from "@/types/app"
 import { useEffect, useState } from "react"
 import { getItem, getPages, updateAppContent } from "@/utils/storage"
 import { ScrollView } from "react-native"
@@ -13,6 +13,7 @@ export default function AppCreateScreen() {
     useEffect(() => {
         getItem<App>("apps/" + id).then((app) => {
             if (app) {
+
                 setApp(app)
             } else {
                 getItem<string>("defaultAppName").then((appName) => {
