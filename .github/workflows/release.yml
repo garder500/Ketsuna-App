@@ -1,99 +1,85 @@
-name: Build and Release Flutter Apps
+# Github Actions CI workflow to deploy to Internal testing in the Play Store
+name: CI_STORE_DEPLOY_ANDROID
 
 on:
+  # Run this workflow when any new code is pushed into the main branch
   push:
-    tags:
-      - 'v*'
+    branches: [master]
 
 jobs:
-  build-windows:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-      - run: flutter pub get
-      - run: flutter build windows
-      - name: Upload Windows Build
-        uses: actions/upload-artifact@v4
-        with:
-          name: windows-build
-          path: build/windows/runner/Release
-
-  build-macos:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-      - run: flutter pub get
-      - run: flutter build macos
-      - name: Upload macOS Build
-        uses: actions/upload-artifact@v4
-        with:
-          name: macos-build
-          path: build/macos/Build/Products/Release
-
-  build-linux:
+  store_deploy_android:
+    # Only run this job if the branch name starts with 'release/'
+    if:  startsWith(github.head_ref, 'release/')
+    name: android store release
     runs-on: ubuntu-latest
+    env:
+      # Setup env variables that will be used throughout the workflow
+      JAVA_VERSION: 21.0.4
+      FLUTTER_VERSION: 3.27.1
+      AAB_PATH: build/app/outputs/bundle/release/app-release.aab
+      KEYSTORE_PATH: android/upload-keystore.jks
+      KEY_PROPS_PATH: android/key.properties
+      SERVICE_ACCOUNT_PATH: store_credentials.json
     steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-      - run: |
-          sudo apt-get update -y
-          sudo apt-get install -y ninja-build libgtk-3-dev
-      - run: flutter pub get
-      - run: flutter build linux
-      - name: Upload Linux Build
-        uses: actions/upload-artifact@v4
-        with:
-          name: linux-build
-          path: build/linux/x64/release/bundle
+      # Checkout repository codebase
+      - name: Checkout the code
+        uses: actions/checkout@v4
 
-  build-ios:
-    runs-on: macos-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
+      # Setup Java in the VM
+      - name: Setup Java to compile the Android project
+        uses: actions/setup-java@v4
         with:
-          channel: 'stable'
-      - run: flutter pub get
-      - run: flutter build ios --release --no-codesign
-      - name: Upload iOS Build
-        uses: actions/upload-artifact@v4
-        with:
-          name: ios-build
-          path: build/ios/iphoneos
+          distribution: 'zulu'
+          java-version: ${{ env.JAVA_VERSION }}
 
-  build-android:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
+      # Setup Flutter in the VM
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
-      - run: flutter pub get
-      - run: flutter build apk --split-per-abi
-      - name: Upload Android Build
-        uses: actions/upload-artifact@v4
-        with:
-          name: android-build
-          path: build/app/outputs/flutter-apk/*.apk
+          flutter-version: ${{ env.FLUTTER_VERSION }}
 
-  create-release:
-    needs: [build-windows, build-macos, build-linux, build-ios, build-android]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Download All Artifacts
-        uses: actions/download-artifact@v4
-      - name: Create Release
-        uses: ncipollo/release-action@v1
+      # Decode Android env variables
+      - name: Decode Android keystore
+        run: echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 --decode > ${{ env.KEYSTORE_PATH }}
+
+      - name: Decode Android key properties
+        run: echo "${{ secrets.ANDROID_KEY_PROPERTY }}" | base64 --decode > ${{ env.KEY_PROPS_PATH }}
+
+      # Decode Android release Service Account
+      - name: Decode Android Service Account
+        run: echo "${{ secrets.SERVICE_JSON }}" | base64 --decode > ${{ env.SERVICE_ACCOUNT_PATH }}
+
+      # Run flutter commands
+      - name: Run flutter pub get
+        run: flutter pub get
+
+      - name: 📦 Install dependencies
+        run: flutter pub get
+
+      - name: 🕵️ Analyze to check for bad Dart/Flutter practices
+        run: flutter analyze
+
+      - name: 📉 Run all app tests
+        run: flutter test
+
+      # Build Android Bundle release file
+      - name: Build aab
+        run: |
+          flutter build appbundle
+          --release
+
+      # Upload generated aab to project artifacts
+      - name: Upload generated aab to the artifacts
+        uses: actions/upload-artifact@master
         with:
-          artifacts: "android-build/*.apk,windows-build/*,macos-build/*,linux-build/*,ios-build/*"
-          token: ${{ secrets.GITHUB_TOKEN }}
-          generateReleaseNotes: true
+          name: aab-stores
+          path: {{ env.AAB_PATH }}
+
+  # Deploy bundle to Google Play internal testing
+      - name: Deploy to Play Store (Internal testing)
+        uses: r0adkll/upload-google-play@v1
+        with:
+          serviceAccountJson: {{ env.SERVICE_ACCOUNT_PATH }}
+          packageName: com.ketsuna.com
+          releaseFiles: {{ env.AAB_PATH }}
+          track: internal
