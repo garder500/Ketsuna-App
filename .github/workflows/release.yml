@@ -39,7 +39,7 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
 
       # Decode Android env variables
-      - name: Decode Android keystore
+       - name: Decode Android keystore
         run: echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 --decode > ${{ env.KEYSTORE_PATH }}
 
       - name: Decode Android key properties
@@ -75,7 +75,7 @@ jobs:
           name: aab-stores
           path: {{ env.AAB_PATH }}
 
-  # Deploy bundle to Google Play internal testing
+      # Deploy bundle to Google Play internal testing
       - name: Deploy to Play Store (Internal testing)
         uses: r0adkll/upload-google-play@v1
         with:
